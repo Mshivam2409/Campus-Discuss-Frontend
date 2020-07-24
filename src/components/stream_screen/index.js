@@ -1,15 +1,13 @@
+// @flow
 import React from "react";
+import { type Post } from "../../types";
 import MinimizedPost from "../MinimizedPost/index";
 
-export default function StreamScreen(props) {
+export default function StreamScreen(props: { postArr: Post[] }) {
   return (
     <div align="left">
       {props.postArr.map((post) => (
-        <MinimizedPost
-          key={post.id}
-          postTitle={post.title}
-          postAuthor={post.author}
-        />
+        <MinimizedPost key={post.pk} post={post} />
       ))}{" "}
     </div>
   );

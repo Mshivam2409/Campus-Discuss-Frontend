@@ -1,52 +1,30 @@
-/*
-    Props expected are :
-    1. replies
-    2. onUpvote
-    3. onDownvote
-    4. onReply
-    5. setOpenReplyBoxId
-    6. openReplyBox
-*/
-
+// @flow
 import React, { useState } from "react";
 import Comment from "../comment";
 import { Collapse, CardActionArea } from "@material-ui/core";
+import { type Comment as CommentType } from "../../types";
 
 const maxViewableComments = 3;
 
-function CommentReplies(props) {
+type Props = {
+  replies: CommentType[],
+};
+
+function CommentReplies(props: Props) {
   const [showComments, setShowComments] = useState(false);
 
   //comments viewable in minimised form
   const visibleComments = props.replies
     .slice(0, maxViewableComments)
     .map((reply) => (
-      <Comment
-        key={reply.id}
-        {...reply}
-        onUpvote={(id) => props.onUpvote(id)}
-        onDownvote={(id) => props.onDownvote(id)}
-        onReply={(id) => props.onReply(id)}
-        showReplies={showComments}
-        openReplyBox={(id) => props.openReplyBox(id)}
-        setOpenReplyBoxId={(id) => props.setOpenReplyBoxId(id)}
-      />
+      <Comment comment={reply} showReplies={showComments} key={reply.pk} />
     ));
 
   //comments which were hidden
   const hiddenComments = props.replies
     .slice(maxViewableComments)
     .map((reply) => (
-      <Comment
-        key={reply.id}
-        {...reply}
-        onUpvote={(id) => props.onUpvote(id)}
-        onDownvote={(id) => props.onDownvote(id)}
-        onReply={(id) => props.onReply(id)}
-        showReplies={showComments}
-        openReplyBox={(id) => props.openReplyBox(id)}
-        setOpenReplyBoxId={(id) => props.setOpenReplyBoxId(id)}
-      />
+      <Comment comment={reply} key={reply.pk} showReplies={showComments} />
     ));
 
   return (
